@@ -2,10 +2,8 @@
 
 namespace TaskManager.Api.Repositories.Interfaces
 {
-    public interface ITaskRepository
+    public interface ITaskRepository : IRepository<TaskItem>
     {
-        Task<List<TaskItem>> GetAllAsync();
-        Task<TaskItem?> GetByIdAsync(Guid id);
-        Task CreateAsync(TaskItem task);
+        Task<TaskItem?> GetTaskById(Guid id);
     }
 }

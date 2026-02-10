@@ -5,33 +5,18 @@ using TaskManager.Api.Repositories.Interfaces;
 
 namespace TaskManager.Api.Repositories.Implementations
 {
-    public class TaskRepository : ITaskRepository
+    public class TaskRepository : Repository<TaskItem>, ITaskRepository
     {
-        private readonly ApplicationDbContext context;
-
-        public TaskRepository(ApplicationDbContext context)
+        public TaskRepository(IServiceProvider serviceProvider, IHttpContextAccessor httpContextAccessor) : base(serviceProvider, httpContextAccessor)
         {
-            this.context = context;
         }
 
-        public async Task<List<TaskItem>> GetAllAsync()
+        public async Task<TaskItem?> GetTaskById(Guid id)
         {
-            return await context.Tasks
-                .Include(t => t.User)
-                .ToListAsync();
-        }
-
-        public async Task<TaskItem?> GetByIdAsync(Guid id)
-        {
-            return await context.Tasks
-                .Include(t => t.User)
-                .FirstOrDefaultAsync(t => t.Id == id);
-        }
-
-        public async Task CreateAsync(TaskItem task)
-        {
-            context.Tasks.Add(task);
-            await context.SaveChangesAsync();
+            var result = (from db in context.Set<TaskItem>()
+                          where db.Id == id
+                          select db).FirstOrDefault();
+            return result;
         }
     }
 }

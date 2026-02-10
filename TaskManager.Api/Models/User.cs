@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using TaskManager.Api.Repositories.Interfaces;
 
 namespace TaskManager.Api.Models
 {
     [Table("users")]
-    public class User
+    public class User : IEntity, ICreatedAt
     {
         [Key]
         [Column("id")]

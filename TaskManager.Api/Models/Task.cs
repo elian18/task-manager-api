@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using TaskManager.Api.Repositories.Interfaces;
 
 namespace TaskManager.Api.Models
 {
     [Table("tasks")]
-    public class TaskItem
+    public class TaskItem : IEntity, ICreatedAt
     {
         [Key]
         [Column("id")]

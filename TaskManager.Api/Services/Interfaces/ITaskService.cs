@@ -1,10 +1,11 @@
-﻿using TaskManager.Api.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using TaskManager.Api.Models;
+using TaskManager.Api.Models.DTOs;
 
 namespace TaskManager.Api.Services.Interfaces
 {
     public interface ITaskService
     {
-        Task<List<TaskItem>> GetAllTasksAsync();
-        Task CreateTaskAsync(TaskItem task);
+        Task<IActionResult> CreateTask(TaskRequest taskRequest);
     }
 }
