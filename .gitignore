@@ -1,0 +1,20 @@
+# ===== .NET / ASP.NET Core =====
+bin/
+obj/
+.vs/
+
+# ===== Logs =====
+*.log
+
+# ===== User-specific / IDE =====
+*.user
+*.suo
+*.rsuser
+
+# ===== SQL Server local =====
+*.mdf
+*.ldf
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
