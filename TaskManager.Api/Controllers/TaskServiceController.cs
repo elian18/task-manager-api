@@ -21,6 +21,13 @@ namespace TaskManager.Api.Controllers
             this.userService = userService;
             this.taskService = taskService;
         }
+
+        [HttpGet("user")]
+        public async Task<UserResponse> GetUserById([FromQuery] Guid id)
+        {
+            return await userService.GetUserById(id);
+        }
+
         [HttpGet("user/tasks")]
         public async Task<List<TaskResponse>> GetTasksByUserId([FromQuery] Guid userId)
         {
