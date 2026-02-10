@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskManager.Api.Exceptions;
 using TaskManager.Api.Models;
+using TaskManager.Api.Models.DTO;
 using TaskManager.Api.Models.DTOs;
 using TaskManager.Api.Repositories.Interfaces;
 using TaskManager.Api.Services.Interfaces;
@@ -19,6 +20,13 @@ namespace TaskManager.Api.Services.Implementations
         {
             this.taskRepository = taskRepository;
             this.userRepository = userRepository;
+        }
+
+        public async Task<List<TaskResponse>> GetTasksByUserId(Guid userId)
+        {
+            User user = await userRepository.GetUserById(userId);
+            if (user == null) throw new ArgumentException(Errors.UserNotFound.ToString());
+            return await taskRepository.GetTasksByUserId(userId);
         }
 
         public async Task<IActionResult> CreateTask(TaskRequest taskRequest)
