@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskManager.Api.Data;
 using TaskManager.Api.Models;
+using TaskManager.Api.Models.DTO;
 using TaskManager.Api.Repositories.Interfaces;
 
 namespace TaskManager.Api.Repositories.Implementations
@@ -11,6 +12,21 @@ namespace TaskManager.Api.Repositories.Implementations
         {
         }
 
+        public async Task<List<TaskResponse>> GetTasksByUserId(Guid Id)
+        {
+            var result = await (from db in context.Set<TaskItem>()
+                          join user in context.Set<User>() on db.UserId equals user.Id
+                          where db.UserId == Id
+                          orderby db.CreatedAt descending
+                          select new TaskResponse
+                            {
+                                Id = db.Id,
+                                Title = db.Title,
+                                Description = db.Description,
+                                Status = db.Status.ToString()
+                            }).ToListAsync();
+            return result;
+        }
         public async Task<TaskItem?> GetTaskById(Guid id)
         {
             var result = (from db in context.Set<TaskItem>()
