@@ -22,6 +22,12 @@ namespace TaskManager.Api.Controllers
             this.taskService = taskService;
         }
 
+        [HttpGet("user/email")]
+        public async Task<UserResponse> GetUserByEmail([FromQuery] string email)
+        {
+            return await userService.GetUserByEmail(email);
+        }
+
         [HttpGet("user")]
         public async Task<UserResponse> GetUserById([FromQuery] Guid id)
         {

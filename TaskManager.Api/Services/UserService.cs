@@ -18,6 +18,16 @@ namespace TaskManager.Api.Services.Implementations
         {
             this.userRepository = userRepository;
         }
+        public async Task<UserResponse> GetUserByEmail(string email)
+        {
+            User user = await userRepository.GetUserByEmail(email);
+            if (user == null) throw new ArgumentException(Errors.UserNotFound.ToString());
+            return new UserResponse
+            {
+                Id = user.Id,
+                Email = user.Email
+            };
+        }
         public async Task<UserResponse> GetUserById(Guid id)
         {
             User user = await userRepository.GetUserById(id);
