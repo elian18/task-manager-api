@@ -6,6 +6,7 @@ namespace TaskManager.Api.Services.Interfaces
 {
     public interface IUserService
     {
+        Task<List<UserResponse>> GetAllUsers();
         Task<UserResponse> GetUserByEmail(string email);
         Task<UserResponse> GetUserById(Guid id);
         Task<IActionResult> CreateUser(UserRequest userRequest);

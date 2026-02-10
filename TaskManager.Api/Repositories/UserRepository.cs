@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using TaskManager.Api.Data;
 using TaskManager.Api.Models;
+using TaskManager.Api.Models.DTO;
 using TaskManager.Api.Repositories.Interfaces;
 
 namespace TaskManager.Api.Repositories.Implementations
@@ -10,6 +12,16 @@ namespace TaskManager.Api.Repositories.Implementations
 
         public UserRepository(IServiceProvider serviceProvider, IHttpContextAccessor httpContextAccessor) : base(serviceProvider, httpContextAccessor)
         {
+        }
+        public async Task<List<UserResponse>> GetAllUsers()
+        {
+            var result = await ( from db in context.Set<User>()
+                                 select new UserResponse
+                                 {
+                                     Id = db.Id,
+                                     Email = db.Email
+                                 }).ToListAsync();
+            return result;
         }
 
         public async Task<User?> GetUserById(Guid id)
