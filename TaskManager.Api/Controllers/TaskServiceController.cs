@@ -7,7 +7,7 @@ using TaskManager.Api.Services.Interfaces;
 namespace TaskManager.Api.Controllers
 {
     [ApiController]
-    [Route("api/task-service")]
+    [Route("api/manage")]
     public class TaskServiceController : ControllerBase
     {
         private readonly IUserService userService;
@@ -22,36 +22,17 @@ namespace TaskManager.Api.Controllers
             this.taskService = taskService;
         }
 
-        // ---------------- USERS ----------------
-
         [HttpPost("user")]
-        public async Task<IActionResult> CreateUser([FromBody] CreateUserDto dto)
+        public async Task<IActionResult> CreateUser([FromBody] UserRequest userRequest)
         {
-            var user = await userService.CreateUserAsync(dto);
-
-            return Created("", new
-            {
-                user.Id,
-                user.Email,
-                user.CreatedAt
-            });
+            return await userService.CreateUser(userRequest);
         }
 
-        // ---------------- TASKS ----------------
-
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateTaskDto dto)
+        [HttpPost("task")]
+        public async Task<IActionResult> CreateTask([FromBody] TaskRequest taskRequest)
         {
-            var task = new TaskItem
-            {
-                Title = dto.Title,
-                Description = dto.Description,
-                Status = dto.Status,
-                UserId = dto.UserId
-            };
 
-            await taskService.CreateTaskAsync(task);
-            return Ok();
+           return await taskService.CreateTask(taskRequest);
         }
     }
 }

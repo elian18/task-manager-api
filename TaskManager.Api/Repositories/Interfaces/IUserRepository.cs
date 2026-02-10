@@ -2,9 +2,9 @@
 
 namespace TaskManager.Api.Repositories.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<User>
     {
-        Task<User?> GetByIdAsync(Guid id);
-        Task CreateAsync(User user);
+        Task<User?> GetUserById(Guid id);
+        Task<User> GetUserByEmail(string email);
     }
 }

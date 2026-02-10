@@ -1,40 +1,35 @@
-﻿using System.Security.Cryptography;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography;
 using System.Text;
+using TaskManager.Api.Exceptions;
 using TaskManager.Api.Models;
 using TaskManager.Api.Models.DTO;
 using TaskManager.Api.Repositories.Interfaces;
 using TaskManager.Api.Services.Interfaces;
+using TaskManager.Api.Types;
 
 namespace TaskManager.Api.Services.Implementations
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _repository;
+        private readonly IUserRepository userRepository;
 
-        public UserService(IUserRepository repository)
+        public UserService(IUserRepository userRepository)
         {
-            _repository = repository;
+            this.userRepository = userRepository;
         }
 
-        public async Task<User> CreateUserAsync(CreateUserDto dto)
+        public async Task<IActionResult> CreateUser(UserRequest userRequest)
         {
-            var user = new User
-            {
-                Id = Guid.NewGuid(),
-                Email = dto.Email,
-                PasswordHash = HashPassword(dto.Password),
-                CreatedAt = DateTime.UtcNow
-            };
-
-            await _repository.CreateAsync(user);
-            return user;
-        }
-
-        private string HashPassword(string password)
-        {
-            using var sha256 = SHA256.Create();
-            var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return Convert.ToBase64String(bytes);
+            User user = await userRepository.GetUserByEmail(userRequest.Email);
+            if (user != null) throw new ArgumentException(Errors.EmailAlreadyExists.ToString());
+            user = new User();
+            user.Id = Guid.NewGuid();
+            user.Email = userRequest.Email;
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(userRequest.Password);
+            user.CreatedAt = DateTime.UtcNow;
+            await userRepository.Add(user);
+            return await Task.FromResult(new OkObjectResult(new { Status = TypeStatus.SUCCESS.ToString() }));
         }
     }
 }

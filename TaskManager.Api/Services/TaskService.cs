@@ -1,6 +1,10 @@
-﻿using TaskManager.Api.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using TaskManager.Api.Exceptions;
+using TaskManager.Api.Models;
+using TaskManager.Api.Models.DTOs;
 using TaskManager.Api.Repositories.Interfaces;
 using TaskManager.Api.Services.Interfaces;
+using TaskManager.Api.Types;
 
 namespace TaskManager.Api.Services.Implementations
 {
@@ -17,19 +21,22 @@ namespace TaskManager.Api.Services.Implementations
             this.userRepository = userRepository;
         }
 
-        public async Task<List<TaskItem>> GetAllTasksAsync()
+        public async Task<IActionResult> CreateTask(TaskRequest taskRequest)
         {
-            return await taskRepository.GetAllAsync();
-        }
+            User user = await userRepository.GetUserById(taskRequest.UserId);
+            if (user == null) throw new ArgumentException(Errors.UserNotFound.ToString());
 
-        public async Task CreateTaskAsync(TaskItem task)
-        {
-            var userExists = await userRepository.GetByIdAsync(task.UserId);
-            if (userExists == null)
-                throw new Exception("User does not exist");
-
-            task.CreatedAt = DateTime.UtcNow;
-            await taskRepository.CreateAsync(task);
+            TaskItem task = new TaskItem
+            {
+                Id = Guid.NewGuid(),
+                Title = taskRequest.Title,
+                Description = taskRequest.Description,
+                Status = taskRequest.Status,
+                UserId = taskRequest.UserId,
+                CreatedAt = DateTime.UtcNow
+            };
+            task = await taskRepository.Add(task);
+            return await Task.FromResult(new OkObjectResult(new { Status = TypeStatus.SUCCESS.ToString() }));
         }
 
     }

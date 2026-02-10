@@ -2,7 +2,7 @@
 
 namespace TaskManager.Api.Models.DTOs
 {
-    public class CreateTaskDto
+    public class TaskRequest
     {
         [Required]
         public string Title { get; set; } = null!;

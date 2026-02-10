@@ -5,24 +5,26 @@ using TaskManager.Api.Repositories.Interfaces;
 
 namespace TaskManager.Api.Repositories.Implementations
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : Repository<User>, IUserRepository
     {
-        private readonly ApplicationDbContext _context;
 
-        public UserRepository(ApplicationDbContext context)
+        public UserRepository(IServiceProvider serviceProvider, IHttpContextAccessor httpContextAccessor) : base(serviceProvider, httpContextAccessor)
         {
-            _context = context;
         }
 
-        public async Task<User?> GetByIdAsync(Guid id)
+        public async Task<User?> GetUserById(Guid id)
         {
-            return await _context.Users.FindAsync(id);
+            var result = ( from db in context.Set<User>()
+                                 where db.Id == id
+                                 select db).FirstOrDefault();
+            return result;
         }
-
-        public async Task CreateAsync(User user)
+        public async Task<User?> GetUserByEmail(string email)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            var result = ( from db in context.Set<User>()
+                                 where db.Email == email
+                                 select db).FirstOrDefault();
+            return result;
         }
     }
 }
