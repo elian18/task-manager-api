@@ -6,5 +6,6 @@
         public const string UserNotFound = "User not found.";
         public const string EmailAlreadyExists = "Email already exists.";
         public const string TaskNotFound = "Task not found.";
+        public const string TaskStatusInvalid = "Task status is invalid.";
     }
 }
