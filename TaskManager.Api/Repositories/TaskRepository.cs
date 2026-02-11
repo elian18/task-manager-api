@@ -34,5 +34,10 @@ namespace TaskManager.Api.Repositories.Implementations
                           select db).FirstOrDefault();
             return result;
         }
+
+        public async Task<TaskItem> UpdateTask(TaskItem task)
+        {
+            return await Update(task);
+        }
     }
 }
