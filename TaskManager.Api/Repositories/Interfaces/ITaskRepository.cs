@@ -9,5 +9,6 @@ namespace TaskManager.Api.Repositories.Interfaces
         Task<TaskItem?> GetTaskById(Guid id);
         Task<TaskItem> UpdateTask(TaskItem task);
         Task<TaskItem> UpdateTaskStatus(TaskItem task);
+        Task<TaskItem> DeleteTask(Guid id);
     }
 }
