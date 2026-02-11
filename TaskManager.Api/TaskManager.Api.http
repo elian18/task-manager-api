@@ -11,3 +11,8 @@ Content-Type: application/json
 {
   "status": 2
 }
+
+###
+
+DELETE {{TaskManager.Api_HostAddress}}/api/manage/task?id={{taskId}}
+Accept: application/json
