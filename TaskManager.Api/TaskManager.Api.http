@@ -4,3 +4,10 @@ GET {{TaskManager.Api_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+PATCH {{TaskManager.Api_HostAddress}}/api/manage/task/status?id={{taskId}}
+Content-Type: application/json
+
+{
+  "status": 2
+}
