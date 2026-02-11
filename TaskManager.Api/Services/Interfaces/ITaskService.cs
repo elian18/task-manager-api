@@ -7,6 +7,7 @@ namespace TaskManager.Api.Services.Interfaces
 {
     public interface ITaskService
     {
+        Task<TaskResponse> GetTaskById(Guid id);
         Task<List<TaskResponse>> GetTasksByUserId(Guid userId);
         Task<IActionResult> CreateTask(TaskRequest taskRequest);
     }

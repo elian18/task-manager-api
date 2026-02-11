@@ -21,6 +21,18 @@ namespace TaskManager.Api.Services.Implementations
             this.taskRepository = taskRepository;
             this.userRepository = userRepository;
         }
+        public async Task<TaskResponse> GetTaskById(Guid id)
+        {
+            TaskItem task = await taskRepository.GetTaskById(id);
+            if (task == null) throw new ArgumentException(Errors.TaskNotFound.ToString());
+            return new TaskResponse
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                Status = task.Status.ToString()
+            };
+        }
 
         public async Task<List<TaskResponse>> GetTasksByUserId(Guid userId)
         {
