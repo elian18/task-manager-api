@@ -1,11 +1,25 @@
 @TaskManager.Api_HostAddress = http://localhost:5081
 
-GET {{TaskManager.Api_HostAddress}}/weatherforecast/
+### Login JWT
+POST {{TaskManager.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "123456"
+}
+
+###
+# Copia el token del login y reemplaza {{jwtToken}}
+@jwtToken = REPLACE_WITH_TOKEN
+
+GET {{TaskManager.Api_HostAddress}}/api/manage/users
+Authorization: Bearer {{jwtToken}}
 Accept: application/json
 
 ###
-
 PATCH {{TaskManager.Api_HostAddress}}/api/manage/task/status?id={{taskId}}
+Authorization: Bearer {{jwtToken}}
 Content-Type: application/json
 
 {
@@ -13,6 +27,6 @@ Content-Type: application/json
 }
 
 ###
-
 DELETE {{TaskManager.Api_HostAddress}}/api/manage/task?id={{taskId}}
+Authorization: Bearer {{jwtToken}}
 Accept: application/json

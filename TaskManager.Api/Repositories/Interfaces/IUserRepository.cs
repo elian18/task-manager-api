@@ -7,6 +7,6 @@ namespace TaskManager.Api.Repositories.Interfaces
     {
         Task<List<UserResponse>> GetAllUsers();
         Task<User?> GetUserById(Guid id);
-        Task<User> GetUserByEmail(string email);
+        Task<User?> GetUserByEmail(string email);
     }
 }
