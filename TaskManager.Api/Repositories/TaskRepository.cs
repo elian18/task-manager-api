@@ -39,5 +39,10 @@ namespace TaskManager.Api.Repositories.Implementations
         {
             return await Update(task);
         }
+
+        public async Task<TaskItem> UpdateTaskStatus(TaskItem task)
+        {
+            return await Update(task);
+        }
     }
 }

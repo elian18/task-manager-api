@@ -72,5 +72,16 @@ namespace TaskManager.Api.Services.Implementations
             return await Task.FromResult(new OkObjectResult(new { Status = TypeStatus.SUCCESS.ToString() }));
         }
 
+        public async Task<IActionResult> UpdateTaskStatus(Guid id, TaskStatusUpdateRequest taskStatusUpdateRequest)
+        {
+            TaskItem task = await taskRepository.GetTaskById(id);
+            if (task == null) throw new ArgumentException(Errors.TaskNotFound.ToString());
+
+            task.Status = taskStatusUpdateRequest.Status;
+
+            await taskRepository.UpdateTaskStatus(task);
+            return await Task.FromResult(new OkObjectResult(new { Status = TypeStatus.SUCCESS.ToString() }));
+        }
+
     }
 }
