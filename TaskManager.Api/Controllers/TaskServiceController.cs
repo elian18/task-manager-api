@@ -76,5 +76,11 @@ namespace TaskManager.Api.Controllers
         {
             return await taskService.UpdateTaskStatus(id, taskStatusUpdateRequest);
         }
+
+        [HttpDelete("task")]
+        public async Task<IActionResult> DeleteTask([FromQuery] Guid id)
+        {
+            return await taskService.DeleteTask(id);
+        }
     }
 }

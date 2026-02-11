@@ -85,5 +85,13 @@ namespace TaskManager.Api.Services.Implementations
             return await Task.FromResult(new OkObjectResult(new { Status = TypeStatus.SUCCESS.ToString() }));
         }
 
+        public async Task<IActionResult> DeleteTask(Guid id)
+        {
+            TaskItem task = await taskRepository.DeleteTask(id);
+            if (task == null) throw new ArgumentException(Errors.TaskNotFound.ToString());
+
+            return await Task.FromResult(new OkObjectResult(new { Status = TypeStatus.SUCCESS.ToString() }));
+        }
+
     }
 }

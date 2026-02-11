@@ -44,5 +44,10 @@ namespace TaskManager.Api.Repositories.Implementations
         {
             return await Update(task);
         }
+
+        public async Task<TaskItem> DeleteTask(Guid id)
+        {
+            return await Delete(id);
+        }
     }
 }
