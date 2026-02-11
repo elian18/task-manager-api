@@ -70,5 +70,11 @@ namespace TaskManager.Api.Controllers
         {
             return await taskService.UpdateTask(id, taskUpdateRequest);
         }
+
+        [HttpPatch("task/status")]
+        public async Task<IActionResult> UpdateTaskStatus([FromQuery] Guid id, [FromBody] TaskStatusUpdateRequest taskStatusUpdateRequest)
+        {
+            return await taskService.UpdateTaskStatus(id, taskStatusUpdateRequest);
+        }
     }
 }

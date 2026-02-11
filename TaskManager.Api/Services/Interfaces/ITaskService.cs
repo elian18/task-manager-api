@@ -11,5 +11,6 @@ namespace TaskManager.Api.Services.Interfaces
         Task<List<TaskResponse>> GetTasksByUserId(Guid userId);
         Task<IActionResult> CreateTask(TaskRequest taskRequest);
         Task<IActionResult> UpdateTask(Guid id, TaskUpdateRequest taskUpdateRequest);
+        Task<IActionResult> UpdateTaskStatus(Guid id, TaskStatusUpdateRequest taskStatusUpdateRequest);
     }
 }
