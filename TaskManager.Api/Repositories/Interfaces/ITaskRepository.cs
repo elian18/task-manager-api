@@ -7,5 +7,6 @@ namespace TaskManager.Api.Repositories.Interfaces
     {
         Task<List<TaskResponse>> GetTasksByUserId(Guid Id);
         Task<TaskItem?> GetTaskById(Guid id);
+        Task<TaskItem> UpdateTask(TaskItem task);
     }
 }
