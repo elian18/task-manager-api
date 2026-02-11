@@ -76,7 +76,7 @@ namespace TaskManager.Api.Services.Implementations
         {
             TaskItem task = await taskRepository.GetTaskById(id);
             if (task == null) throw new ArgumentException(Errors.TaskNotFound.ToString());
-            if (!Enum.IsDefined(typeof(TaskStatus), taskStatusUpdateRequest.Status))
+            if (!Enum.IsDefined(typeof(Types.TaskStatus), taskStatusUpdateRequest.Status))
                 throw new ArgumentException(Errors.TaskStatusInvalid.ToString());
 
             task.Status = taskStatusUpdateRequest.Status;
